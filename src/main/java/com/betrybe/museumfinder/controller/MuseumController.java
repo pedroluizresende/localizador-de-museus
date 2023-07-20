@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +65,20 @@ public class MuseumController {
 
     Museum museum = service.getClosestMuseum(coordinate, maxDistanceKm);
     MuseumDto museumDto = ModelDtoConverter.modelToDto(museum);
+    return ResponseEntity.ok(museumDto);
+  }
+
+  /**
+   * Rota que retorna um museu a partir de um id.
+   *
+   * @param id do tipo Long.
+   */
+  @GetMapping("/{id}")
+  public ResponseEntity<MuseumDto> getMuseum(@PathVariable Long id) {
+    Museum museum = service.getMuseum(id);
+
+    MuseumDto museumDto = ModelDtoConverter.modelToDto(museum);
+
     return ResponseEntity.ok(museumDto);
   }
 }
